@@ -18,7 +18,7 @@
             <li><a href="bookList.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
-            <li><a href="createUser.jsp">Tạo tài khoản</a></li>
+            <li><a href="createUser.jsp">Quản lý người dùng</a></li>
         </ul>
     </div>
     <div class="content">

@@ -1,7 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.sql.*, java.util.*" %>
+<%@ page import="Data.Users" %>
+<%
+    Users user = (Users) session.getAttribute("user");
 
+    // Kiểm tra nếu chưa đăng nhập hoặc không có quyền truy cập
+    if (user == null || (user.getRoleID() != 1 && user.getRoleID() != 2)) {
+        response.sendRedirect("index.jsp"); // Chuyển về trang chính nếu không có quyền
+        return;
+    }
+%>
 <html>
 <head>
     <title>Quản lý sách - Admin</title>
@@ -192,7 +200,7 @@
             <li><a href="bookList.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
-            <li><a href="createUser.jsp">Tạo tài khoản</a></li>
+            <li><a href="createUser.jsp">Quản lý người dùng</a></li>
         </ul>
     </div>
      <!-- Thanh tìm kiếm -->

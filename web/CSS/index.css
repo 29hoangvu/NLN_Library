@@ -1,0 +1,229 @@
+/* Định dạng chung cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    background-color: #f5f5f5; /* Màu nền trang */
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+/* Container chính */
+.container {
+  display: grid;
+  grid-template-areas:
+     "header header"
+     "menu content"
+     "footer footer";
+  grid-template-columns: 1fr 3fr;
+  gap: 5px;
+  padding: 5px;
+}
+
+ .container > div {
+   background-color: rgba(255, 255, 255, 0.8);
+   padding: 10px;
+ }
+ 
+ .container > div.header {
+   grid-area: header;
+   text-align: center;
+   background-color: #3498db;
+ }
+ .container > div.menu {
+   grid-area: menu;
+ }
+ 
+ .container > div.content {
+   grid-area: content;
+ }
+ 
+ .container > div.footer {
+   grid-area: footer;
+ }
+.menu-navbar {
+   width: 100%;        
+   background-color: #f8f9fa;
+   padding: 6px;
+   border-radius: 6px;
+   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.menu-navbar ul {
+   list-style: none;
+   padding: 0;
+   text-align: center;
+}
+
+.menu-navbar ul li {
+   margin: 4px 0;
+}
+
+.menu-navbar ul li a {
+   text-decoration: none;
+   color: #007bff;
+   font-size: 18px; /* Giảm font để tiết kiệm không gian */
+   display: block;
+   padding: 10px;
+   border-radius: 4px;
+   transition: background 0.3s ease;
+}
+
+.menu-navbar ul li a:hover {
+   background-color: #007bff;
+   color: white;
+}
+
+/* Bố cục dạng lưới */
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Hiển thị 4 sách trên một hàng */
+    gap: 5px; /* Giảm khoảng cách giữa các sách */
+    padding: 10px;
+}
+
+/* Thẻ sách (Card) */
+.book-card {
+    width: 250px; /* Giảm chiều rộng của khung sách */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-card img {
+    width: 90%; /* Làm hình ảnh nhỏ hơn khung */
+    height: 200px; /* Giới hạn chiều cao của hình ảnh */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 10px; /* Căn giữa và giữ khoảng cách phía dưới */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+.user-menu {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 16px;
+}
+
+.user-menu .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.user-menu .btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-button {
+    position: fixed;
+    top: 30px;
+    right: 10px;
+}
+
+.logout-button button {
+    padding: 5px 10px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-button button:hover {
+    background-color: #c00;
+}
+
+/* Bố cục hiển thị sách */
+.book-detail {
+    display: flex;
+    gap: 40px;
+    width: 70%;
+    max-width: 900px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    align-items: center;
+}
+
+/* Hình ảnh sách */
+.book-image {
+    flex: 1;
+    text-align: center;
+}
+
+.book-image img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Các nút thao tác */
+.btn {
+    display: block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.3s;
+    font-size: 18px;
+}
+
+.borrow-btn { background: #28a745; }
+.borrow-btn:hover { background: #218838; }
+
+.read-btn { background: #007bff; }
+.read-btn:hover { background: #0056b3; }
+
+.download-btn { background: #ffc107; color: #000; }
+.download-btn:hover { background: #e0a800; }
+
+/* Thông tin sách */
+.book-info {
+    flex: 2;
+}
+
+.book-info h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.book-info p {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+/* Mô tả sách */
+.book-description {
+    margin-top: 30px;
+    width: 70%;
+    max-width: 900px;
+    text-align: justify;
+    padding: 20px;
+    border-top: 3px solid #ddd;
+    font-size: 18px;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+
+        

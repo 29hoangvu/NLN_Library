@@ -4,70 +4,7 @@
 <html>
 <head>
     <title>Thư viện Sách</title>
-    <link rel="stylesheet" href="./CSS/style.css">
-    <style>
-        .container {
-            display: grid;
-            grid-template-areas:
-              "header header"
-              "menu content"
-              "footer footer";
-            grid-template-columns: 1fr 3fr;
-            gap: 5px;
-            padding: 5px;
-          }
-          .container > div {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-          }
-          .container > div.header {
-            grid-area: header;
-            text-align: center;
-            background-color: #3498db;
-          }
-          .container > div.menu {
-            grid-area: menu;
-          }
-          .container > div.content {
-            grid-area: content;
-          }
-          .container > div.footer {
-            grid-area: footer;
-          }
-        .menu-navbar {
-            width: 100%;
-            max-width: 110px; /* Giới hạn kích thước menu nhỏ hơn nữa */
-            background-color: #f8f9fa;
-            padding: 6px;
-            border-radius: 6px;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-navbar ul {
-            list-style: none;
-            padding: 0;
-            text-align: center;
-        }
-
-        .menu-navbar ul li {
-            margin: 4px 0;
-        }
-
-        .menu-navbar ul li a {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 12px; /* Giảm font để tiết kiệm không gian */
-            display: block;
-            padding: 4px;
-            border-radius: 4px;
-            transition: background 0.3s ease;
-        }
-
-        .menu-navbar ul li a:hover {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="./CSS/index.css">
 </head>
 <body>
     <div class="container">
@@ -209,7 +146,7 @@
                     <p>Không có Ebook.</p>
                 <% } %>
             </div>
-    </div>
+        </div>
         <div class="footer">
             
         </div>
