@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý sách - Admin</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./CSS/admin.css">
     <script>
         // Gộp chọn/nhập tác giả trong cùng 1 ô
         document.addEventListener('DOMContentLoaded', () => {

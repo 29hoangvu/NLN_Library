@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thêm Vị Trí Sách</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./CSS/admin.css">
 
 </head>
 <body>

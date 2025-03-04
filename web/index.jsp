@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Thư viện Sách</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./CSS/style.css">
 </head>
 <body>
     <h2>Thư viện sách</h2>

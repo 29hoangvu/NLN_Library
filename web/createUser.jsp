@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Thêm Người Dùng - Admin</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./CSS/admin.css">
     <script>
         // Hiển thị thông báo từ URL nếu có
         window.onload = function () {
