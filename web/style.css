@@ -1,0 +1,70 @@
+/* Định dạng chung cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f5f5f5; /* Màu nền trang */
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+/* Container chính */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0;
+}
+
+/* Bố cục dạng lưới */
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Hiển thị 4 sách trên một hàng */
+    gap: 5px; /* Giảm khoảng cách giữa các sách */
+    padding: 10px;
+}
+
+/* Thẻ sách (Card) */
+.book-card {
+    width: 250px; /* Giảm chiều rộng của khung sách */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-card img {
+    width: 90%; /* Làm hình ảnh nhỏ hơn khung */
+    height: 200px; /* Giới hạn chiều cao của hình ảnh */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 10px; /* Căn giữa và giữ khoảng cách phía dưới */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+
+.book-info {
+    padding: 10px;
+}
+
+.book-info h3 {
+    font-size: 16px; /* Giảm kích thước chữ */
+    margin: 10px 0;
+}
+
+.book-info p {
+    margin: 5px 0;
+    font-size: 12px; /* Giảm kích thước chữ */
+    color: #555;
+}
+
