@@ -1,7 +1,6 @@
 /* Định dạng chung cho toàn bộ trang */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
     padding: 0;
     background-color: #f5f5f5; /* Màu nền trang */
     color: #333;
@@ -15,9 +14,9 @@ h2 {
 
 /* Container chính */
 .container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0;
+    width: 100%;
+/*    max-width: 1200px;*/
+    margin: 0 auto;
 }
 
 /* Bố cục dạng lưới */
@@ -68,3 +67,43 @@ h2 {
     color: #555;
 }
 
+.user-menu {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 16px;
+}
+
+.user-menu .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.user-menu .btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-button {
+    position: fixed;
+    top: 30px;
+    right: 10px;
+}
+
+.logout-button button {
+    padding: 5px 10px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-button button:hover {
+    background-color: #c00;
+}
+
+
+        
