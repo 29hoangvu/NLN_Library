@@ -3,11 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/editBook.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/addBookItem.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/bookList.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/LoginServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/createUser.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/index.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Data/Users.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/index.css</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/bookDetails.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/LogOutServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/style.css</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/admin.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ApproveUserServlet.java</file>
         </group>
     </open-files>
 </project-private>
