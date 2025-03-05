@@ -27,12 +27,14 @@ h2 {
  .container > div {
    background-color: rgba(255, 255, 255, 0.8);
    padding: 10px;
+   border-radius: 20px;
  }
  
  .container > div.header {
    grid-area: header;
    text-align: center;
    background-color: #3498db;
+   justify-content: space-between;
  }
  .container > div.menu {
    grid-area: menu;
@@ -225,5 +227,36 @@ h2 {
     border-radius: 8px;
 }
 
-
-        
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f1f1f1;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    margin: 15px;
+}
+.search-form input {
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    outline: none;
+    width: 85%;
+    align-items: center;
+}
+.search-form button {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 10px;
+    align-items: center;
+}
+.search-form button:hover {
+    background: #0056b3;
+}
