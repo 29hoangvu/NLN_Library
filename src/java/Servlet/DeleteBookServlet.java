@@ -21,7 +21,7 @@ public class DeleteBookServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         if (isbn == null || isbn.isEmpty()) {
-            response.sendRedirect("bookList.jsp");
+            response.sendRedirect("adminDashboard.jsp");
             return;
         }
 
@@ -31,9 +31,9 @@ public class DeleteBookServlet extends HttpServlet {
             int rowsDeleted = stmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                response.getWriter().write("<script>alert('Xóa thành công!'); window.location='bookList.jsp';</script>");
+                response.getWriter().write("<script>alert('Xóa thành công!'); window.location='adminDashboard.jsp';</script>");
             } else {
-                response.getWriter().write("<script>alert('Không tìm thấy sách để xóa!'); window.location='bookList.jsp';</script>");
+                response.getWriter().write("<script>alert('Không tìm thấy sách để xóa!'); window.location='adminDashboard.jsp';</script>");
             }
         } catch (Exception e) {
             response.getWriter().write("Lỗi: " + e.getMessage());

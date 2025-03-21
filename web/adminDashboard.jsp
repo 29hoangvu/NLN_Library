@@ -14,6 +14,8 @@
 <head>
     <title>Quản lý sách - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/menu_user.css">
+    <script src="./JS/script.js"></script> 
     <style>
         /* CSS chung */
         html, body {
@@ -197,15 +199,24 @@
     <div class="sidebar">
         <h2>Menu</h2>
         <ul>
-            <li><a href="bookList.jsp">Dashboard</a></li>
+            <li><a href="adminDashboard.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
             <li><a href="createUser.jsp">Quản lý người dùng</a></li>
         </ul>
+        <div class="user-menu" onclick="toggleUserMenu()">
+            <span><%= user.getUsername() %></span>
+            <span id="arrowIcon" class="arrow">▼</span>
+        </div>
+        <div id="userDropup" class="user-dropup">
+            <a href="#">Thông tin cá nhân</a>
+            <a href="#">Cài đặt</a>
+            <a href="LogOutServlet">Đăng xuất</a>
+        </div>
     </div>
      <!-- Thanh tìm kiếm -->
     <div class="search-container">
-        <form action="bookList.jsp" method="POST">
+        <form action="adminDashboard.jsp" method="POST">
             <input type="text" name="search" placeholder="Nhập ISBN, tên sách hoặc tác giả..." 
                    value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
             <button type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -258,12 +269,13 @@
                 String query = "SELECT b.isbn, b.title, a.name AS author, r.rack_number, b.quantity " +
                                "FROM book b " +
                                "JOIN author a ON b.authorId = a.id " +
-                               "LEFT JOIN bookitem bi ON b.isbn = bi.book_id " +
+                               "LEFT JOIN bookitem bi ON b.isbn = bi.book_isbn " +
                                "LEFT JOIN rack r ON bi.rack_id = r.rack_id ";
                 if (!searchQuery.isEmpty()) {
                     query += "WHERE b.isbn LIKE ? OR b.title LIKE ? OR a.name LIKE ? ";
                 }
-                query += "LIMIT ?, ?";
+                query += "ORDER BY CASE WHEN r.rack_number IS NULL THEN 1 ELSE 0 END, r.rack_number ASC " + 
+                        "LIMIT ?, ?";
 
                 PreparedStatement stmt = conn.prepareStatement(query);
                 int paramIndex = 1;
@@ -350,17 +362,17 @@
     </script>
     <ul class="pagination">
         <% if (currentPage > 1) { %>
-            <li><a href="bookList.jsp?page=<%= currentPage - 1 %>">« Trước</a></li>
+            <li><a href="adminDashboard.jsp?page=<%= currentPage - 1 %>">« Trước</a></li>
         <% } %>
 
         <% for (int i = 1; i <= totalPages; i++) { %>
             <li class="<%= (i == currentPage) ? "active" : "" %>">
-                <a href="bookList.jsp?page=<%= i %>"><%= i %></a>
+                <a href="adminDashboard.jsp?page=<%= i %>"><%= i %></a>
             </li>
         <% } %>
 
         <% if (currentPage < totalPages) { %>
-            <li><a href="bookList.jsp?page=<%= currentPage + 1 %>">Tiếp »</a></li>
+            <li><a href="adminDashboard.jsp?page=<%= currentPage + 1 %>">Tiếp »</a></li>
         <% } %>
     </ul>
 </body>

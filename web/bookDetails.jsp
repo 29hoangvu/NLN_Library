@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Chi Tiết Sách</title>
-    <link rel="stylesheet" href="./CSS/home.css">
+    <link rel="stylesheet" href="./CSS/index.css">
 </head>
 <body>
     <%
@@ -17,17 +17,27 @@
             return;
         }
 
+        Users user = (Users) session.getAttribute("user");
+        boolean canBorrow = true;
+        boolean hasBorrowed = false;
+        int borrowedCount = 0;
+        String borrowStatus = "Chưa đăng ký mượn";
+        String returnDate = "Chưa xác định";
+        boolean canExtend = false;
+
         Map<String, Object> book = new HashMap<>();
         Connection conn = null;
-
         try {
             conn = DBConnection.getConnection(); 
 
-            String sql = "SELECT b.title, a.name AS author, b.publicationYear, b.format, bd.description " +
-                         "FROM book b " + 
-                         "JOIN author a ON b.authorId = a.id " +
-                         "LEFT JOIN book_description bd ON b.isbn = bd.isbn " +
-                         "WHERE b.isbn = ?";
+            String sql = "SELECT b.title, a.name AS author, b.publicationYear, b.format, bd.description, " +
+                     "r.rack_number, b.subject, b.quantity " +
+                     "FROM book b " + 
+                     "JOIN author a ON b.authorId = a.id " +
+                     "LEFT JOIN book_description bd ON b.isbn = bd.isbn " +
+                     "LEFT JOIN bookitem bi ON b.isbn = bi.book_item_id " +
+                     "LEFT JOIN rack r ON bi.rack_id = r.rack_id " +
+                     "WHERE b.isbn = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, isbn);
             ResultSet rs = stmt.executeQuery();
@@ -37,12 +47,42 @@
                 book.put("author", rs.getString("author"));
                 book.put("description", rs.getString("description"));
                 book.put("format", rs.getString("format"));
-
+                book.put("rack", rs.getString("rack_number") != null ? rs.getString("rack_number") : "Chưa sắp xếp");
+                book.put("subject", rs.getString("subject"));
+                book.put("quantity", rs.getInt("quantity"));
+                
                 int publishedYear = rs.getInt("publicationYear");
                 book.put("publicationYear", (publishedYear > 0) ? publishedYear : "Không xác định");
             } else {
                 out.println("<p>Không tìm thấy sách.</p>");
                 return;
+            }
+            
+            if (user != null) {
+                // Kiểm tra số sách đã mượn
+                sql = "SELECT COUNT(*) FROM borrow WHERE user_id = ? AND status = 'Đang mượn'";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, user.getId());
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    borrowedCount = rs.getInt(1);
+                    if (borrowedCount >= 3) {
+                        canBorrow = false;
+                    }
+                }
+
+                // Kiểm tra trạng thái mượn của sách này
+                sql = "SELECT status, due_date, extended FROM borrow WHERE user_id = ? AND book_item_id = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, user.getId());
+                stmt.setString(2, isbn);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    hasBorrowed = true;
+                    borrowStatus = rs.getString("status");
+                    returnDate = rs.getString("due_date");
+                    canExtend = rs.getInt("extended") == 0;
+                }
             }
         } catch (SQLException e) {
             out.println("<p style='color:red'>Lỗi kết nối CSDL: " + e.getMessage() + "</p>");
@@ -56,8 +96,7 @@
     <div class="container">
         <div class="header">
             <div class="user-menu">
-                <%
-                     Users user = (Users) session.getAttribute("user");
+                <%                  
                     if (user != null) {
                 %>
                     <span>Xin chào, <%= user.getUsername() %>!</span>
@@ -91,9 +130,12 @@
             <!-- Hình ảnh sách -->
             <div class="book-image">
                 <img src="ImageServlet?isbn=<%= isbn %>" alt="Ảnh bìa" />
-
+                
                 <% if (!"EBOOK".equalsIgnoreCase(format)) { %>
-                    <a href="borrowBook.jsp?isbn=<%= isbn %>" class="btn borrow-btn">Đăng ký mượn</a>
+                    <form action="BorrowBookServlet" method="post">
+                        <input type="hidden" id="isbn" name="isbn" value="<%= isbn %>">
+                        <a href="BorrowBookServlet?isbn=<%= isbn %>" class="btn borrow-btn">Đăng ký mượn</a>
+                    </form>
                 <% } else { %>
                     <a href="readBook.jsp?isbn=<%= isbn %>" class="btn read-btn">Đọc online</a>
                     <a href="downloadBook.jsp?isbn=<%= isbn %>" class="btn download-btn">Tải về</a>
@@ -103,9 +145,12 @@
             <!-- Thông tin sách -->
             <div class="book-info">
                 <h3><%= book.get("title") %></h3>
-                <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
-                <p><strong>Năm xuất bản:</strong> <%= book.get("publicationYear") %></p>
-                <p><strong>Định dạng:</strong> <%= format %></p>
+                <p><strong>Tác giả: </strong> <%= book.get("author") %></p>
+                <p><strong>Năm xuất bản: </strong> <%= book.get("publicationYear") %></p>
+                <p><strong>Thể Loại: </strong> <%= book.get("subject") %></p>               
+                <p><strong>Định dạng: </strong> <%= format %></p>
+                <p><strong>Số lượng còn lại: </strong> <%= book.get("quantity") %></p>
+                <p><strong>Vị trí kệ: </strong> <%= book.get("rack") %></p>
             </div>
         </div>
 
@@ -114,8 +159,7 @@
             <h3>Mô tả sách</h3>
             <p><%= book.get("description") != null ? book.get("description") : "Chưa có mô tả" %></p>
         </div>
-    </div>
-
+    </div>  
     <a href="index.jsp" class="back-link">Quay lại danh sách sách</a>
     </div>
         <div class="footer">

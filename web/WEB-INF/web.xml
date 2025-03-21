@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>AdminServlet</servlet-name>
-        <servlet-class>Servlet.AdminServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>Servlet.ImageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>Servlet.AdminServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddUserServlet</servlet-name>
@@ -48,10 +48,18 @@
         <servlet-name>LogOutServlet</servlet-name>
         <servlet-class>Servlet.LogOutServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
+        <servlet-name>BorrowBookServlet</servlet-name>
+        <servlet-class>Servlet.BorrowBookServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AdminServlet</servlet-name>
-        <url-pattern>/AdminServlet</url-pattern>
-    </servlet-mapping>
+        <servlet-class>Servlet.AdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ApproveBorrowServlet</servlet-name>
+        <servlet-class>Servlet.ApproveBorrowServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/ImageServlet</url-pattern>
@@ -77,10 +85,6 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ApproveUserServlet</servlet-name>
-        <url-pattern>/ApproveUserServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RenewServlet</servlet-name>
         <url-pattern>/RenewServlet</url-pattern>
     </servlet-mapping>
@@ -95,5 +99,21 @@
     <servlet-mapping>
         <servlet-name>LogOutServlet</servlet-name>
         <url-pattern>/LogOutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BorrowBookServlet</servlet-name>
+        <url-pattern>/BorrowBookServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/AdminServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApproveUserServlet</servlet-name>
+        <url-pattern>/ApproveUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApproveBorrowServlet</servlet-name>
+        <url-pattern>/ApproveBorrowServlet</url-pattern>
     </servlet-mapping>
 </web-app>

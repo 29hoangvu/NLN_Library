@@ -16,32 +16,8 @@
     <meta charset="UTF-8">
     <title>Quản lý sách - Admin</title>
     <link rel="stylesheet" href="./CSS/admin.css">
-    <script>
-        // Gộp chọn/nhập tác giả trong cùng 1 ô
-        document.addEventListener('DOMContentLoaded', () => {
-            const authorInput = document.getElementById('authorName');
-            const authorList = document.getElementById('authorList');
-            const authorIdInput = document.getElementById('authorId');
-            const isNewAuthorInput = document.getElementById('isNewAuthor');
-
-            authorInput.addEventListener('input', () => {
-                const inputVal = authorInput.value.trim();
-                let found = false;
-                for (const opt of authorList.options) {
-                    if (opt.value === inputVal) {
-                        authorIdInput.value = opt.dataset.id;
-                        isNewAuthorInput.value = "false";
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found && inputVal !== "") {
-                    authorIdInput.value = "";
-                    isNewAuthorInput.value = "true";
-                }
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="./CSS/menu_user.css">
+    <script src="./JS/script.js"></script> 
 </head>
 <body>
     <div class="navbar">
@@ -50,18 +26,28 @@
     <div class="sidebar">
         <h2>Menu</h2>
         <ul>
-            <li><a href="bookList.jsp">Dashboard</a></li>
+            <li><a href="adminDashboard.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
             <li><a href="createUser.jsp">Quản lý người dùng</a></li>
         </ul>
+        
+        <div class="user-menu" onclick="toggleUserMenu()">
+            <span><%= user.getUsername() %></span>
+            <span id="arrowIcon" class="arrow">▼</span>
+        </div>
+        <div id="userDropup" class="user-dropup">
+            <a href="#">Thông tin cá nhân</a>
+            <a href="#">Cài đặt</a>
+            <a href="LogOutServlet">Đăng xuất</a>
+        </div>
     </div>
     <div class="content">
         <h2>Thêm sách mới</h2>
         <form action="AdminServlet" method="post" enctype="multipart/form-data">
             ISBN <input type="text" name="isbn" required>
             Tên sách <input type="text" name="title" required>
-            Chủ đề <input type="text" name="subject">
+            Thể loại <input type="text" name="subject">
             Nhà xuất bản <input type="text" name="publisher">
             Năm xuất bản <input type="number" name="publicationYear" min="1000" max="9999" required>
             Ngôn ngữ <input type="text" name="language">
@@ -91,6 +77,9 @@
             <input type="hidden" name="isNewAuthor" id="isNewAuthor" value="false">
 
             Số lượng <input type="number" name="quantity" min="1" required>
+            Giá sách <input type="number" name="price" step="0.01" min="0" required>
+            Ngày nhập sách <input type="date" name="dateOfPurchase" required>
+
             Hình ảnh <input type="file" name="coverImage" accept="image/*">
 
             <button type="submit">Thêm sách</button>

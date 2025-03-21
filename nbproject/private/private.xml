@@ -5,16 +5,20 @@
         <group>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/editBook.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/addBookItem.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/bookList.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/LoginServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/createUser.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/RegisterServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/WEB-INF/web.xml</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/index.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Data/Users.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/index.css</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/bookDetails.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/LogOutServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ImageServlet.java</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/admin.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ApproveUserServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/RenewUserServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/DeleteBookServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/AdminServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/home.css</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ApproveBorrowServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/createUser.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/BookItemServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/AddUserServlet.java</file>
         </group>
     </open-files>
 </project-private>

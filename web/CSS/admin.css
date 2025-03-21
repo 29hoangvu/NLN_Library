@@ -29,7 +29,7 @@ html, body {
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     height: 100vh;
-    position: fixed;
+    position: relative;
     top: 50px;
     left: 0;
 }
@@ -88,3 +88,5 @@ form button {
     border: none; border-radius: 5px; cursor: pointer;
 }
 form button:hover { background-color: #218838; }
+
+

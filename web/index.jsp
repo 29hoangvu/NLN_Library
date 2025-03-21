@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*, java.util.*, Servlet.DBConnection, Data.Users" %>
-<%@ page session="true" %>
 <html>
 <head>
     <title>Thư viện Sách</title>
-    <link rel="stylesheet" href="./CSS/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/index.css">
+    <script src="./JS/script.js"></script> 
 </head>
 <body>
     <div class="container">
@@ -15,21 +16,33 @@
                        value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
                 <button type="submit">Tìm kiếm</button>
             </form>
-            <div class="user-menu" style="float: right;">
+            <div class="user-menu" style="float: right; position: relative;">
                 <%
                     Users user = (Users) session.getAttribute("user");
                     if (user != null) {
+                        String avatarUrl = "AvatarServlet?userId=" + user.getId();
+                        String defaultAvatar = "./images/default-avatar.png"; // Ảnh mặc định
                 %>
-                    <span>Xin chào, <%= user.getUsername() %>!</span>
-                    <div class="logout-button">
-                        <form action="./LogOutServlet" method="get">
-                            <button onclick="logout()">Đăng xuất</button>
-                        </form>
+                    <div class="dropdown">
+                        <img src="<%= avatarUrl %>" onerror="this.onerror=null; this.src='<%= defaultAvatar %>';" 
+                             alt="Avatar" class="avatar" onclick="toggleDropdown()">
+                        <div class="dropdown-content" id="userDropdown">
+                            <div class="user-info">
+                                <img src="<%= avatarUrl %>" onerror="this.onerror=null; this.src='<%= defaultAvatar %>';" 
+                                     alt="Avatar" class="avatar-large">
+                                <p><%= user.getUsername() %></p>
+                            </div>
+                            <a href="profile.jsp">Xem thông tin</a>
+                            <a href="borrowedBooks.jsp">Sách đã mượn</a>
+                            <a href="LogOutServlet">Đăng xuất</a>
+                        </div>
                     </div>
                 <%
                     } else {
                 %>
-                    <a href="login.jsp" class="btn">Đăng nhập</a>
+                    <a href="login.jsp" class="btn-login" title="Đăng nhập">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
                 <%
                     }
                 %>
@@ -51,26 +64,39 @@
                 Connection conn = null;
                 List<Map<String, Object>> books = new ArrayList<>();
                 String searchQuery = request.getParameter("search");
-                
+
                 try {
                     conn = DBConnection.getConnection();
                     String sql = "SELECT b.isbn, b.title, a.name AS author, b.publicationYear, b.format " +
                                  "FROM book b " +
                                  "LEFT JOIN author a ON b.authorId = a.id";
-                    
+
                     if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                        sql += " WHERE b.title LIKE ? OR a.name LIKE ?";
+                        String[] keywords = searchQuery.trim().toLowerCase().split("\\s+"); // Tách từ khóa nhập vào
+                        StringBuilder sqlCondition = new StringBuilder(" WHERE ");
+
+                        for (int i = 0; i < keywords.length; i++) {
+                            if (i > 0) sqlCondition.append(" AND "); // Mỗi từ phải xuất hiện
+                            sqlCondition.append("(LOWER(b.title) LIKE ? OR LOWER(a.name) LIKE ?)");
+                        }
+
+                        sql += sqlCondition.toString();
                     }
-                    
+
                     PreparedStatement stmt = conn.prepareStatement(sql);
-                    
+
                     if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                        stmt.setString(1, "%" + searchQuery + "%");
-                        stmt.setString(2, "%" + searchQuery + "%");
+                        String[] keywords = searchQuery.trim().toLowerCase().split("\\s+");
+                        int index = 1;
+                        for (String keyword : keywords) {
+                            String param = "%" + keyword + "%";
+                            stmt.setString(index++, param);
+                            stmt.setString(index++, param);
+                        }
                     }
-                    
+
                     ResultSet rs = stmt.executeQuery();
-                    
+
                     while (rs.next()) {
                         Map<String, Object> book = new HashMap<>();
                         book.put("isbn", rs.getString("isbn"));
@@ -90,29 +116,74 @@
                 }
             %>
 
-            <% String[] formats = {"HARDCOVER", "PAPERBACK", "EBOOK"}; %>
-            <% for (String format : formats) { %>
-                <h3 ><%= format.equals("HARDCOVER") ? "Sách Bìa Cứng" : format.equals("PAPERBACK") ? "Sách Bìa Mềm" : "Ebook" %></h3>
-                <div class="books-container">
-                    <% boolean hasBooks = false; %>
-                    <% for (Map<String, Object> book : books) { %>
-                        <% if (format.equals(book.get("format"))) { %>
-                            <% hasBooks = true; %>
+            <% boolean hasBooks = false; %>
+            
+            <!-- Sách Bìa Cứng -->
+            <h3 id="hardcover">Sách Bìa Cứng</h3>
+            <div class="books-container">
+                <% for (Map<String, Object> book : books) { %>
+                    <% if ("HARDCOVER".equals(book.get("format"))) { %>
+                        <% hasBooks = true; %>
+                        <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>" class="book-link">
                             <div class="book-card">
-                                <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
-                                    <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
-                                </a>
+                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
                                 <h3><%= book.get("title") %></h3>
                                 <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
                                 <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
                             </div>
-                        <% } %>
+                        </a>
                     <% } %>
-                    <% if (!hasBooks) { %>
-                        <p>Không có sách trong danh mục này.</p>
+                <% } %>
+                <% if (!hasBooks) { %>
+                    <p>Không có sách trong danh mục này.</p>
+                <% } %>
+            </div>
+
+            <% hasBooks = false; %> <!-- Reset lại biến hasBooks cho phần tiếp theo -->
+
+            <!-- Sách Bìa Mềm -->
+            <h3 id="paperback">Sách Bìa Mềm</h3>
+            <div class="books-container">
+                <% for (Map<String, Object> book : books) { %>
+                    <% if ("PAPERBACK".equals(book.get("format"))) { %>
+                        <% hasBooks = true; %>
+                        <div class="book-card">
+                            <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
+                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
+                            </a>
+                            <h3><%= book.get("title") %></h3>
+                            <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
+                            <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
+                        </div>
                     <% } %>
-                </div>
-            <% } %>
+                <% } %>
+                <% if (!hasBooks) { %>
+                    <p>Không có sách trong danh mục này.</p>
+                <% } %>
+            </div>
+
+            <% hasBooks = false; %> <!-- Reset lại biến hasBooks cho phần tiếp theo -->
+
+            <!-- Ebook -->
+            <h3 id="ebook">Ebook</h3>
+            <div class="books-container">
+                <% for (Map<String, Object> book : books) { %>
+                    <% if ("EBOOK".equals(book.get("format"))) { %>
+                        <% hasBooks = true; %>
+                        <div class="book-card">
+                            <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
+                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
+                            </a>
+                            <h3><%= book.get("title") %></h3>
+                            <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
+                            <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
+                        </div>
+                    <% } %>
+                <% } %>
+                <% if (!hasBooks) { %>
+                    <p>Không có sách trong danh mục này.</p>
+                <% } %>
+            </div>
         </div>
         
         <div class="footer">
