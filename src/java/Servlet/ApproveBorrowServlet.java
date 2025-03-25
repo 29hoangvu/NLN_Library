@@ -51,7 +51,7 @@ public class ApproveBorrowServlet extends HttpServlet {
             }
 
             // 3️⃣ Cập nhật trạng thái phiếu mượn thành "Đang mượn"
-            String updateBorrowSql = "UPDATE borrow SET status = 'Đang mượn' WHERE borrow_id = ?";
+            String updateBorrowSql = "UPDATE borrow SET status = 'Borrowed' WHERE borrow_id = ?";
             PreparedStatement updateBorrowStmt = conn.prepareStatement(updateBorrowSql);
             updateBorrowStmt.setInt(1, Integer.parseInt(borrowId));
 

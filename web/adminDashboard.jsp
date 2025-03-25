@@ -14,8 +14,9 @@
 <head>
     <title>Quản lý sách - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/menu_user.css">
-    <script src="./JS/script.js"></script> 
+    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <link rel="stylesheet" href="./CSS/navbar.css">
+    <script src="./JS/admin.js"></script> 
     <style>
         /* CSS chung */
         html, body {
@@ -70,65 +71,6 @@
         .btn-delete {
             background-color: #e74c3c;
         }
-
-        /* Thanh điều hướng */
-        .navbar {
-            width: 100%;
-            background-color: #2c3e50;
-            padding: 10px;
-            color: white;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .navbar h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 10%;
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            height: 100vh;
-            position: fixed;
-            top: 50px;
-            left: 0;
-        }
-
-        .sidebar h2 {
-            font-size: 24px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #34495e;
-        }
-
         /* Phân trang */
         .pagination {
             list-style: none;
@@ -203,6 +145,7 @@
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
             <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
         <div class="user-menu" onclick="toggleUserMenu()">
             <span><%= user.getUsername() %></span>

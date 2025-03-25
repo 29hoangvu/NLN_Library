@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Chi Tiết Sách</title>
-    <link rel="stylesheet" href="./CSS/index.css">
+    <link rel="stylesheet" href="./CSS/home.css">
 </head>
 <body>
     <%

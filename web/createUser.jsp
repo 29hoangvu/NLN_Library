@@ -13,12 +13,15 @@
 <head>
     <title>Quản lý Người Dùng - Admin</title>
     <link rel="stylesheet" href="./CSS/admin.css">
+    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <script src="./JS/admin.js"></script>
     <style>
         /* NAVBAR */
         .navbar-am {
             padding: 10px 0;
             text-align: center;
             background-color: #ddd;
+            
         }
 
         .navbar-am button {
@@ -28,6 +31,7 @@
             padding: 14px 20px;
             cursor: pointer;
             transition: background 0.3s ease-in-out;
+            
         }
 
         .navbar-am button:hover {
@@ -113,7 +117,17 @@
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
             <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
+        <div class="user-menu" onclick="toggleUserMenu()">
+            <span><%= user.getUsername() %></span>
+            <span id="arrowIcon" class="arrow">▼</span>
+        </div>
+        <div id="userDropup" class="user-dropup">
+            <a href="#">Thông tin cá nhân</a>
+            <a href="#">Cài đặt</a>
+            <a href="LogOutServlet">Đăng xuất</a>
+        </div>
     </div>
         <div class="content">
             <div class="navbar-am">
@@ -174,7 +188,7 @@
         <!-- Tạo tài khoản -->
         <div id="createUserSection" class="content-section active">
             <h2>Tạo Người Dùng Mới</h2>
-            <form action="AddUserServlet" method="post">
+            <form class="form" action="AddUserServlet" method="post">
                 <label for="username">Tên người dùng:</label>
                 <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
 
@@ -188,7 +202,7 @@
                     <option value="3">Member</option>
                 </select>
 
-                <button type="submit">Thêm Người Dùng</button>
+                <button class="btn" type="submit">Thêm Người Dùng</button>
             </form>
         </div>
 

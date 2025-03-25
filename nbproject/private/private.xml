@@ -3,22 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/editBook.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/addBookItem.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/RegisterServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/web/WEB-INF/web.xml</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/index.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/LogOutServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ImageServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/bookDetails.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/adminDashboard.jsp</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/BorrowBookServlet.java</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/admin.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/RenewUserServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/DeleteBookServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/AdminServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/borrowedBooks.jsp</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/home.css</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/ApproveBorrowServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/JS/admin.js</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/mn_ad.css</file>
             <file>file:/D:/Năm%204/NLN/NLN_Library/web/createUser.jsp</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/BookItemServlet.java</file>
-            <file>file:/D:/Năm%204/NLN/NLN_Library/src/java/Servlet/AddUserServlet.java</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/JS/home.js</file>
+            <file>file:/D:/Năm%204/NLN/NLN_Library/web/CSS/admin.css</file>
         </group>
     </open-files>
 </project-private>

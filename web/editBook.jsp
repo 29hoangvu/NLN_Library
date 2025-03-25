@@ -147,7 +147,7 @@
     %>
         <script>
             alert("Cập nhật sách thành công!");
-            window.location.href = "bookList.jsp"; // Chuyển hướng về danh sách sách
+            window.location.href = "adminDashboard.jsp"; // Chuyển hướng về danh sách sách
         </script>
     <%
         } else if (error != null) {
@@ -174,7 +174,7 @@
     </div>
     <div class="container">
         <div class="header-container">
-            <a href="bookList.jsp" class="btn-back">
+            <a href="adminDashboard.jsp" class="btn-back">
                 <i class="fa fa-arrow-left"></i>
             </a>
             <h2>Chỉnh sửa thông tin sách</h2>

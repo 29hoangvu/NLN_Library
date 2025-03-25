@@ -4,13 +4,15 @@
 <head>
     <title>Thư viện Sách</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/index.css">
-    <script src="./JS/script.js"></script> 
+    <link rel="stylesheet" href="./CSS/home.css">
+    <script src="./JS/home.js"></script> 
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1 style="float: left; margin-right: 20px;">Thư viện sách</h1>
+            <a href="index.jsp">
+                <h1 style="float: left; margin-right: 20px;">Library</h1>
+            </a>
             <form action="index.jsp" method="get" class="search-form">
                 <input type="text" name="search" placeholder="Tìm sách theo tên hoặc tác giả..." 
                        value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
@@ -49,7 +51,7 @@
             </div>
         </div>
         
-        <div class="menu">
+        <div class="menu">          
             <div class="menu-navbar">
                 <ul>
                     <li><a href="#hardcover">Sách Bìa Cứng</a></li>
@@ -116,75 +118,66 @@
                 }
             %>
 
-            <% boolean hasBooks = false; %>
-            
             <!-- Sách Bìa Cứng -->
+        <div class="category-header">
             <h3 id="hardcover">Sách Bìa Cứng</h3>
-            <div class="books-container">
-                <% for (Map<String, Object> book : books) { %>
-                    <% if ("HARDCOVER".equals(book.get("format"))) { %>
-                        <% hasBooks = true; %>
-                        <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>" class="book-link">
-                            <div class="book-card">
-                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
-                                <h3><%= book.get("title") %></h3>
-                                <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
-                                <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
-                            </div>
-                        </a>
-                    <% } %>
-                <% } %>
-                <% if (!hasBooks) { %>
-                    <p>Không có sách trong danh mục này.</p>
-                <% } %>
-            </div>
-
-            <% hasBooks = false; %> <!-- Reset lại biến hasBooks cho phần tiếp theo -->
-
-            <!-- Sách Bìa Mềm -->
-            <h3 id="paperback">Sách Bìa Mềm</h3>
-            <div class="books-container">
-                <% for (Map<String, Object> book : books) { %>
-                    <% if ("PAPERBACK".equals(book.get("format"))) { %>
-                        <% hasBooks = true; %>
-                        <div class="book-card">
-                            <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
-                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
-                            </a>
-                            <h3><%= book.get("title") %></h3>
-                            <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
-                            <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
-                        </div>
-                    <% } %>
-                <% } %>
-                <% if (!hasBooks) { %>
-                    <p>Không có sách trong danh mục này.</p>
-                <% } %>
-            </div>
-
-            <% hasBooks = false; %> <!-- Reset lại biến hasBooks cho phần tiếp theo -->
-
-            <!-- Ebook -->
-            <h3 id="ebook">Ebook</h3>
-            <div class="books-container">
-                <% for (Map<String, Object> book : books) { %>
-                    <% if ("EBOOK".equals(book.get("format"))) { %>
-                        <% hasBooks = true; %>
-                        <div class="book-card">
-                            <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
-                                <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
-                            </a>
-                            <h3><%= book.get("title") %></h3>
-                            <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
-                            <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
-                        </div>
-                    <% } %>
-                <% } %>
-                <% if (!hasBooks) { %>
-                    <p>Không có sách trong danh mục này.</p>
-                <% } %>
-            </div>
+            <button class="show-more-btn" onclick="toggleView('hardcover-books', this)">Xem thêm</button>
         </div>
+        <div class="books-container" id="hardcover-books">
+            <% for (Map<String, Object> book : books) { %>
+                <% if ("HARDCOVER".equals(book.get("format"))) { %>
+                    <div class="book-card">
+                        <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
+                            <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
+                        </a>
+                        <h3><%= book.get("title") %></h3>
+                        <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
+                        <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
+        <!-- Sách Bìa Mềm -->
+        <div class="category-header">
+            <h3 id="paperback">Sách Bìa Mềm</h3>
+            <button class="show-more-btn" onclick="toggleView('paperback-books', this)">Xem thêm</button>
+        </div>
+        <div class="books-container" id="paperback-books">
+            <% for (Map<String, Object> book : books) { %>
+                <% if ("PAPERBACK".equals(book.get("format"))) { %>
+                    <div class="book-card">
+                        <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
+                            <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
+                        </a>
+                        <h3><%= book.get("title") %></h3>
+                        <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
+                        <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
+        <!-- Ebook -->
+        <div class="category-header">
+            <h3 id="ebook">Ebook</h3>
+            <button class="show-more-btn" onclick="toggleView('ebook-books', this)">Xem thêm</button>
+        </div>
+        <div class="books-container" id="ebook-books">
+            <% for (Map<String, Object> book : books) { %>
+                <% if ("EBOOK".equals(book.get("format"))) { %>
+                    <div class="book-card">
+                        <a href="bookDetails.jsp?isbn=<%= book.get("isbn") %>">
+                            <img src="ImageServlet?isbn=<%= book.get("isbn") %>" alt="Ảnh bìa" />
+                        </a>
+                        <h3><%= book.get("title") %></h3>
+                        <p><strong>Tác giả:</strong> <%= book.get("author") %></p>
+                        <p><strong>Năm xuất bản:</strong> <%= book.get("publishedYear") %></p>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
         
         <div class="footer">
             <p>Bản quyền &copy; 2025 - Thư viện sách</p>

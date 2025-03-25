@@ -11,13 +11,13 @@ import jakarta.servlet.http.HttpSession;
 import Data.Users;
 
 public class BorrowBookServlet extends HttpServlet {
-    private static final int MAX_BORROW_LIMIT = 3; // Giới hạn mượn tối đa 3 sách
+    private static final int MAX_BORROW_LIMIT = 3; // Giới hạn tối đa 3 sách
     private static final int DEFAULT_BORROW_DAYS = 7; // Thời gian mượn mặc định 7 ngày
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doPost(request, response); // Chuyển hướng GET sang POST
-}
-    
+        doPost(request, response); // Chuyển hướng GET sang POST
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Users user = (Users) session.getAttribute("user");
@@ -35,24 +35,25 @@ public class BorrowBookServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
-            // 1. Kiểm tra số sách đang mượn
-            String checkSql = "SELECT COUNT(*) AS borrow_count FROM borrow WHERE user_id = ? AND status = 'Đang mượn'";
+            // 1. Kiểm tra số sách đang mượn + chờ duyệt
+            String checkSql = "SELECT COUNT(*) AS borrow_count FROM borrow " +
+                              "WHERE user_id = ? AND (status = 'Borrowed' OR status = 'Pending Approval')";
             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
             checkStmt.setInt(1, user.getId());
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next() && rs.getInt("borrow_count") >= MAX_BORROW_LIMIT) {
-                sendResponse(response, "Bạn đã đạt giới hạn mượn sách!");
+                sendResponse(response, "Bạn đã đạt giới hạn mượn sách! Vui lòng trả bớt để tiếp tục mượn.");
                 return;
             }
 
             // 2. Lấy book_item_id chưa được mượn
             String getBookItemSql = "SELECT book_item_id FROM bookitem WHERE book_isbn = ? " +
-                                    "AND book_item_id NOT IN (SELECT book_item_id FROM borrow WHERE status = 'Đang mượn')";
+                                    "AND book_item_id NOT IN (SELECT book_item_id FROM borrow WHERE status = 'Borrowed' OR status = 'Pending Approval')";
             PreparedStatement getBookItemStmt = conn.prepareStatement(getBookItemSql);
             getBookItemStmt.setString(1, isbn);
             ResultSet bookItemRs = getBookItemStmt.executeQuery();
-            
+
             int bookItemId;
             if (bookItemRs.next()) { // Lấy dòng đầu tiên
                 bookItemId = bookItemRs.getInt("book_item_id");
@@ -63,7 +64,7 @@ public class BorrowBookServlet extends HttpServlet {
 
             // 3. Đăng ký mượn sách
             String borrowSql = "INSERT INTO borrow (book_item_id, user_id, borrowed_date, due_date, status) " +
-                               "VALUES (?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL ? DAY), 'Chờ duyệt')";
+                               "VALUES (?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL ? DAY), 'Pending Approval')";
             PreparedStatement borrowStmt = conn.prepareStatement(borrowSql);
             borrowStmt.setInt(1, bookItemId);
             borrowStmt.setInt(2, user.getId());

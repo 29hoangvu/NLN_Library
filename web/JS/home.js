@@ -73,3 +73,21 @@ window.addEventListener("click", function (event) {
         });
     }
 });
+
+document.querySelector('.books-container').scrollTo({
+    left: 100, // Điều chỉnh vị trí cuộn
+    behavior: 'smooth'
+});
+
+function toggleView(categoryId, button) {
+        let container = document.getElementById(categoryId);
+        let isGridView = container.classList.contains("grid-view");
+
+        if (isGridView) {
+            container.classList.remove("grid-view");
+            button.innerText = "Xem thêm";
+        } else {
+            container.classList.add("grid-view");
+            button.innerText = "Thu gọn";
+        }
+    }
