@@ -3,6 +3,7 @@
 <head>
     <title>Đăng ký</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
     <style>
     body {
             font-family: Arial, sans-serif;
@@ -100,8 +101,8 @@
         </div>
            
         <form action="RegisterServlet" method="post">
-            Tên đăng nhập: <input type="text" name="username" required><br>
-            Mật khẩu: <input type="password" name="password" required><br>
+            Tên đăng nhập <input type="text" name="username" required><br>
+            Mật khẩu <input type="password" name="password" required><br>
             <button type="submit">Đăng Ký</button>
         </form>
     </div>

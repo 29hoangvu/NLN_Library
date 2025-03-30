@@ -41,14 +41,18 @@ public class AddUserServlet extends HttpServlet {
 
             boolean success = userDAO.createUser(user);
             if (success) {
-                response.sendRedirect("createUser.jsp?message=Người dùng được thêm thành công!");
+                sendResponse(response, "Thêm người dùng thành công!");
             } else {
-                response.sendRedirect("createUser.jsp?message=Thêm người dùng thất bại!");
+                sendResponse(response, "Thêm người dùng thất bại!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Error: " + e.getMessage());
-        }
+        }      
+    }
+    private void sendResponse(HttpServletResponse response, String message) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().println("<script>alert('" + message + "'); window.location.href='createUser.jsp';</script>");
     }
 }

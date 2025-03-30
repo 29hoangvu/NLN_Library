@@ -8,6 +8,7 @@
     color: white;
     border-top: 1px solid #fff;
     bottom: 15%;
+    border-radius: 10px;
 }
 
 .user-menu p {
@@ -35,6 +36,7 @@
     width: 80%;
     z-index: 10;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: 15px;
 }
 .user-dropup a {
     display: block;
@@ -42,7 +44,10 @@
     text-decoration: none;
     padding: 10px 15px;
     border-top: 1px solid #222;
+    border-radius: 15px;
+    font-size: 15px;
 }
 .user-dropup a:hover {
     background: #1abc9c;
+
 }

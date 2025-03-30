@@ -38,15 +38,6 @@
 
             String status = rs.getString("status");
 
-            // Nếu là "Đang mượn" và quá hạn -> đổi thành "Quá hạn"
-            if ("Đang mượn".equals(status)) {
-                java.sql.Date dueDate = java.sql.Date.valueOf(rs.getString("due_date"));
-                java.util.Date today = new java.util.Date();
-                if (today.after(dueDate)) {
-                    status = "Quá hạn";
-                }
-            }
-
             book.put("status", status);
             borrowedBooks.add(book);
         }
@@ -62,10 +53,11 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Sách đã mượn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./CSS/home.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
     <script src="./JS/home.js"></script> 
     <style>
         table { width: 100%; border-collapse: collapse;}
@@ -78,6 +70,24 @@
         .status.overdue { color: red; }
         .status.returned { color: blue; }
         .cancel-btn { background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        .h1{
+            float: left; 
+            margin-right: 10%;
+            margin-left: 10px;
+            font-size: 2.5rem;
+            margin-top: 15px;
+            color: #fff;
+            background: url('./images/nen2.jpg') center;
+            background-size: cover;
+            background-clip: text;
+            color: transparent;
+            animation: animate 10s linear infinite;
+        }
+        @keyframes animate{
+            to{
+                background-position-x: -200px;
+            }
+        }
     </style>
     <script>
         function confirmCancel(borrowId) {
@@ -92,7 +102,7 @@
 <div class="container">
     <div class="header">
             <a href="index.jsp">
-                <h1 style="float: left; margin-right: 20px;">Library</h1>
+                <h1 class="h1">LIBRARY</h1>
             </a>
             <form action="index.jsp" method="get" class="search-form">
                 <input type="text" name="search" placeholder="Tìm sách theo tên hoặc tác giả..." 

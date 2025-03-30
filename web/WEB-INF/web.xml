@@ -68,10 +68,6 @@
         <servlet-name>ReturnBookServlet</servlet-name>
         <servlet-class>Servlet.ReturnBookServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ApplyFineServlet</servlet-name>
-        <servlet-class>Servlet.ApplyFineServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/ImageServlet</url-pattern>
@@ -135,9 +131,5 @@
     <servlet-mapping>
         <servlet-name>ReturnBookServlet</servlet-name>
         <url-pattern>/ReturnBookServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ApplyFineServlet</servlet-name>
-        <url-pattern>/ApplyFineServlet</url-pattern>
     </servlet-mapping>
 </web-app>

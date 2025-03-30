@@ -14,7 +14,8 @@
 <head>
     <title>Quản lý sách - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./CSS/ad_menu.css">
     <link rel="stylesheet" href="./CSS/navbar.css">
     <script src="./JS/admin.js"></script> 
     <style>
@@ -144,7 +145,9 @@
             <li><a href="adminDashboard.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
-            <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% if (user.getRoleID() == 1) { %>
+                <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% } %>
             <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
         <div class="user-menu" onclick="toggleUserMenu()">

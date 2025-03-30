@@ -18,6 +18,13 @@ public class Users {
         this.expiryDate = expiryDate;
         this.roleID = roleID;
     }
+    public Users(int id, String username, int roleID, String status, Date expiryDate) {
+        this.id = id;
+        this.username = username;
+        this.roleID = roleID;
+        this.status = status;
+        this.expiryDate = expiryDate;
+    }   
     public Users(){}
     // Getters & Setters
     public int getId() { return id; }

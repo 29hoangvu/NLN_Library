@@ -5,7 +5,30 @@
 <html>
 <head>
     <title>Chi Tiết Sách</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
     <link rel="stylesheet" href="./CSS/home.css">
+    <script src="./JS/home.js"></script> 
+    <style>
+        .h1{
+            float: left; 
+            margin-right: 10%;
+            margin-left: 10px;
+            font-size: 2.5rem;
+            margin-top: 15px;
+            color: #fff;
+            background: url('./images/nen2.jpg') center;
+            background-size: cover;
+            background-clip: text;
+            color: transparent;
+            animation: animate 10s linear infinite;
+        }
+        @keyframes animate{
+            to{
+                background-position-x: -200px;
+            }
+        }
+    </style>
 </head>
 <body>
     <%
@@ -35,8 +58,8 @@
                      "FROM book b " + 
                      "JOIN author a ON b.authorId = a.id " +
                      "LEFT JOIN book_description bd ON b.isbn = bd.isbn " +
-                     "LEFT JOIN bookitem bi ON b.isbn = bi.book_item_id " +
-                     "LEFT JOIN rack r ON bi.rack_id = r.rack_id " +
+                     "LEFT JOIN bookitem bi ON b.isbn = bi.book_isbn " +
+                     "LEFT JOIN rack r ON bi.rack_id = r.rack_id "+
                      "WHERE b.isbn = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, isbn);
@@ -95,33 +118,52 @@
     %>
     <div class="container">
         <div class="header">
-            <div class="user-menu">
-                <%                  
+            <a href="index.jsp">
+                <h1 class="h1">LIBRARY</h1>
+            </a>
+            <form action="index.jsp" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Tìm sách theo tên hoặc tác giả..." 
+                       value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+            <div class="user-menu" style="float: right; position: relative;">
+                <%
+                    
                     if (user != null) {
+                        String avatarUrl = "AvatarServlet?userId=" + user.getId();
+                        String defaultAvatar = "./images/default-avatar.png"; // Ảnh mặc định
                 %>
-                    <span>Xin chào, <%= user.getUsername() %>!</span>
-                    <div class="logout-button">
-                         <form action="./LogOutServlet" method="get">
-                            <button onclick="logout()">Đăng xuất</button>
-                        </form>
+                    <div class="dropdown">
+                        <img src="<%= avatarUrl %>" onerror="this.onerror=null; this.src='<%= defaultAvatar %>';" 
+                             alt="Avatar" class="avatar" onclick="toggleDropdown()">
+                        <div class="dropdown-content" id="userDropdown">
+                            <div class="user-info">
+                                <img src="<%= avatarUrl %>" onerror="this.onerror=null; this.src='<%= defaultAvatar %>';" 
+                                     alt="Avatar" class="avatar-large">
+                                <p><%= user.getUsername() %></p>
+                            </div>
+                            <a href="profile.jsp">Xem thông tin</a>
+                            <a href="borrowedBooks.jsp">Sách đã mượn</a>
+                            <a href="LogOutServlet">Đăng xuất</a>
+                        </div>
                     </div>
                 <%
                     } else {
                 %>
-                    <a href="login.jsp" class="btn">Đăng nhập</a>
+                    <a href="login.jsp" class="btn-login" title="Đăng nhập">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
                 <%
                     }
                 %>
             </div>
-
-            <h1>Thư viện sách</h1>
         </div>
         <div class="menu">
             <div class="menu-navbar">
                 <ul>
-                    <li><a href="#hardcover">Sách Bìa Cứng</a></li>
-                    <li><a href="#paperback">Sách Bìa Mềm</a></li>
-                    <li><a href="#ebook">Ebook</a></li>
+                    <li><a href="index.jsp#hardcover">Sách Bìa Cứng</a></li>
+                    <li><a href="index.jsp#paperback">Sách Bìa Mềm</a></li>
+                    <li><a href="index.jsp#ebook">Ebook</a></li>
                 </ul>
             </div>   
         </div>
@@ -150,7 +192,7 @@
                 <p><strong>Thể Loại: </strong> <%= book.get("subject") %></p>               
                 <p><strong>Định dạng: </strong> <%= format %></p>
                 <p><strong>Số lượng còn lại: </strong> <%= book.get("quantity") %></p>
-                <p><strong>Vị trí kệ: </strong> <%= book.get("rack") %></p>
+                <p><strong>Vị trí kệ: </strong><%= book.get("rack") %></p>
             </div>
         </div>
 

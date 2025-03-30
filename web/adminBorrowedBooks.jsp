@@ -4,8 +4,10 @@
 <%@ page import="Data.Users" %>
 <%
     Users user = (Users) session.getAttribute("user");
-    if (user == null || user.getRoleID() != 1) {
-        response.sendRedirect("index.jsp");
+
+    // Kiểm tra nếu chưa đăng nhập hoặc không có quyền truy cập
+    if (user == null || (user.getRoleID() != 1 && user.getRoleID() != 2)) {
+        response.sendRedirect("index.jsp"); // Chuyển về trang chính nếu không có quyền
         return;
     }
 
@@ -17,9 +19,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Mượn/Trả</title>
-    <link rel="stylesheet" href="./CSS/admin.css">
-    <link rel="stylesheet" href="./CSS/table.css">
-    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./CSS/admin1.css">
+    <link rel="stylesheet" href="./CSS/table_ad.css">
+    <link rel="stylesheet" href="./CSS/ad_menu.css">
     <script src="./JS/adminBorrowedBooks.js"></script>
     <script src="./JS/admin.js"></script>
     <style>
@@ -27,7 +30,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 10px 0 20px -20%;
+            margin: 10px 0 20px -10%;
         }
         .nav-buttons a {
             padding: 10px 15px;
@@ -53,7 +56,9 @@
             <li><a href="adminDashboard.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
-            <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% if (user.getRoleID() == 1) { %>
+                <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% } %>
             <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
         <div class="user-menu" onclick="toggleUserMenu()">
@@ -138,7 +143,7 @@
                         <% if (status.equals("Borrowed")) { %>
                         <button class="btn-edit" onclick="confirmReturn(<%= rs.getInt("borrow_id") %>)">Xác nhận Trả</button>
                         <% } else if (status.equals("Overdue")) { %>
-                            <button class="btn-delete" onclick="applyFine(<%= rs.getInt("borrow_id") %>)">Xử lý Phạt</button>
+                            <button class="btn-edit" onclick="confirmReturn(<%= rs.getInt("borrow_id") %>)">Xác nhận Trả</button>
                         <% } %>
                     </td>
                 </tr>

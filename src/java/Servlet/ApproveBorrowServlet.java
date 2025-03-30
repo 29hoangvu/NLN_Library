@@ -78,6 +78,6 @@ public class ApproveBorrowServlet extends HttpServlet {
 
     private void sendResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println("<script>alert('" + message + "'); window.history.back();</script>");
+        response.getWriter().println("<script>alert('" + message + "'); window.location.href='borrowList.jsp';</script>");
     }
 }

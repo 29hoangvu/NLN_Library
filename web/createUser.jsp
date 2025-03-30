@@ -4,16 +4,17 @@
     Users user = (Users) session.getAttribute("user");
 
     // Kiểm tra nếu chưa đăng nhập hoặc không có quyền truy cập
-    if (user == null || (user.getRoleID() != 1 && user.getRoleID() != 2)) {
-        response.sendRedirect("index.jsp");
+    if (user == null || (user.getRoleID() != 1)) {
+        response.sendRedirect("adminDashboard.jsp");
         return;
     }
 %>
 <html>
 <head>
     <title>Quản lý Người Dùng - Admin</title>
-    <link rel="stylesheet" href="./CSS/admin.css">
-    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./CSS/admin1.css">
+    <link rel="stylesheet" href="./CSS/ad_menu.css">
     <script src="./JS/admin.js"></script>
     <style>
         /* NAVBAR */

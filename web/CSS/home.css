@@ -374,9 +374,11 @@ h2 {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0;
-    border-radius: 5px;
+    border-radius: 10px;
 }
-
+.dropdown-content a{
+    border-radius: 10px;
+}
 /* Style cho từng mục trong menu */
 .user-menu {
     position: absolute;
@@ -385,7 +387,7 @@ h2 {
     width: 70px;
     height: 70px;
     margin-bottom: -60px;
-    
+    border-radius: 10px;
 }
 
 .user-menu span {

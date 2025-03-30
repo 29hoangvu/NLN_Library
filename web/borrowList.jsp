@@ -16,9 +16,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý mượn sách</title>
-    <link rel="stylesheet" href="./CSS/admin.css">
-    <link rel="stylesheet" href="./CSS/table.css">
-    <link rel="stylesheet" href="./CSS/mn_ad.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./CSS/admin1.css">
+    <link rel="stylesheet" href="./CSS/table_ad.css">
+    <link rel="stylesheet" href="./CSS/ad_menu.css">
     <script src="./JS/adminBorrowedBooks.js"></script>
     <script src="./JS/admin.js"></script>
     <script>
@@ -33,7 +34,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 10px 0 20px -20%;
+            margin: 10px 0 20px -10%;
         }
         .nav-buttons a {
             padding: 10px 15px;
@@ -59,7 +60,9 @@
             <li><a href="adminDashboard.jsp">Dashboard</a></li>
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
-            <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% if (user.getRoleID() == 1) { %>
+                <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <% } %>
             <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
         <div class="user-menu" onclick="toggleUserMenu()">
@@ -79,7 +82,6 @@
             <a href="borrowList.jsp">Duyệt Mượn Sách</a>
             <a href="adminReports.jsp">Thống kê</a>
         </div>
-        <h2>Danh sách yêu cầu mượn sách</h2>
         <table border="1">
             <tr>
                 <th>Người mượn</th>

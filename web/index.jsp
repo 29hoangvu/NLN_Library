@@ -5,13 +5,34 @@
     <title>Thư viện Sách</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./CSS/home.css">
-    <script src="./JS/home.js"></script> 
+    <script src="./JS/home.js"></script>
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
+    <style>
+        .h1{
+            float: left; 
+            margin-right: 10%;
+            margin-left: 10px;
+            font-size: 2.5rem;
+            margin-top: 15px;
+            color: #fff;
+            background: url('./images/nen2.jpg') center;
+            background-size: cover;
+            background-clip: text;
+            color: transparent;
+            animation: animate 10s linear infinite;
+        }
+        @keyframes animate{
+            to{
+                background-position-x: -200px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="index.jsp">
-                <h1 style="float: left; margin-right: 20px;">Library</h1>
+                <h1 class="h1">LIBRARY</h1>
             </a>
             <form action="index.jsp" method="get" class="search-form">
                 <input type="text" name="search" placeholder="Tìm sách theo tên hoặc tác giả..." 
@@ -34,7 +55,7 @@
                                      alt="Avatar" class="avatar-large">
                                 <p><%= user.getUsername() %></p>
                             </div>
-                            <a href="profile.jsp">Xem thông tin</a>
+                            <a href="#">Xem thông tin</a>
                             <a href="borrowedBooks.jsp">Sách đã mượn</a>
                             <a href="LogOutServlet">Đăng xuất</a>
                         </div>

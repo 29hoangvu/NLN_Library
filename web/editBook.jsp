@@ -64,6 +64,7 @@
     <title>Chỉnh sửa thông tin sách</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./CSS/navbar.css">
+    <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
     <style>      
         body {
             font-family: Arial, sans-serif;
