@@ -21,46 +21,50 @@ public class LoginServlet extends HttpServlet {
 
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT id, username, roleID, status FROM users WHERE username=? AND password=?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, hashedPassword);
-            ResultSet rs = stmt.executeQuery();
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, username);
+                stmt.setString(2, hashedPassword);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (!rs.next()) {
+                        sendResponse(response, "Sai tên tài khoản hoặc mật khẩu.");
+                        return;
+                    }
 
-            if (rs.next()) {
-                String status = rs.getString("status");
-                int roleID = rs.getInt("roleID");
+                    String status = rs.getString("status");
+                    int roleID = rs.getInt("roleID");
 
-                if (!"ACTIVE".equals(status)) {
-                    request.setAttribute("error", "Tài khoản chưa được duyệt hoặc đã hết hạn.");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
+                    if (!"ACTIVE".equals(status)) {
+                        sendResponse(response, "Tài khoản chưa được duyệt hoặc đã hết hạn.");
+                        return;
+                    }
+
+                    // Tạo đối tượng Users và lưu vào session
+                    Users user = new Users();
+                    user.setId(rs.getInt("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setRoleID(roleID);
+                    user.setStatus(status);
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+
+                    // Điều hướng theo quyền
+                    if (roleID == 3) {
+                        response.sendRedirect("index.jsp"); // Thành viên
+                    } else {
+                        response.sendRedirect("adminDashboard.jsp"); // Admin hoặc Thủ thư
+                    }
                 }
-
-                // Tạo đối tượng Users và lưu vào session
-                Users user = new Users();
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setRoleID(roleID);
-                user.setStatus(status);
-
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-
-                // Điều hướng theo quyền
-                if (roleID == 3) {
-                    response.sendRedirect("index.jsp"); // Thành viên
-                } else {
-                    response.sendRedirect("adminDashboard.jsp"); // Admin hoặc Thủ thư
-                }
-
-            } else {
-                request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
+    }
+
+    private void sendResponse(HttpServletResponse response, String message) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().println("<script>alert('" + message + "'); window.history.back();</script>");
     }
 }

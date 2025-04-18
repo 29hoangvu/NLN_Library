@@ -103,6 +103,7 @@
         <form action="RegisterServlet" method="post">
             Tên đăng nhập <input type="text" name="username" required><br>
             Mật khẩu <input type="password" name="password" required><br>
+            Email <input type="email" name="email" required><br>
             <button type="submit">Đăng Ký</button>
         </form>
     </div>

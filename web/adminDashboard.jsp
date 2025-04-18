@@ -194,10 +194,12 @@
 
                 // Đếm tổng số sách
                 String countSQL = "SELECT COUNT(*) FROM book b " +
-                                  "JOIN author a ON b.authorId = a.id ";
+                                "JOIN author a ON b.authorId = a.id " +
+                                "WHERE b.status != 'DELETED' ";
                 if (!searchQuery.isEmpty()) {
-                    countSQL += "WHERE b.isbn LIKE ? OR b.title LIKE ? OR a.name LIKE ?";
+                    countSQL += "AND (b.isbn LIKE ? OR b.title LIKE ? OR a.name LIKE ?)";
                 }
+
                 PreparedStatement countStmt = conn.prepareStatement(countSQL);
                 if (!searchQuery.isEmpty()) {
                     for (int i = 1; i <= 3; i++) {
@@ -213,13 +215,15 @@
 
                 // Lấy danh sách sách
                 String query = "SELECT b.isbn, b.title, a.name AS author, r.rack_number, b.quantity " +
-                               "FROM book b " +
-                               "JOIN author a ON b.authorId = a.id " +
-                               "LEFT JOIN bookitem bi ON b.isbn = bi.book_isbn " +
-                               "LEFT JOIN rack r ON bi.rack_id = r.rack_id ";
+                                "FROM book b " +
+                                "JOIN author a ON b.authorId = a.id " +
+                                "LEFT JOIN bookitem bi ON b.isbn = bi.book_isbn " +
+                                "LEFT JOIN rack r ON bi.rack_id = r.rack_id " +
+                                "WHERE b.status != 'DELETED' ";
                 if (!searchQuery.isEmpty()) {
-                    query += "WHERE b.isbn LIKE ? OR b.title LIKE ? OR a.name LIKE ? ";
+                    query += "AND (b.isbn LIKE ? OR b.title LIKE ? OR a.name LIKE ?) ";
                 }
+
                 query += "ORDER BY CASE WHEN r.rack_number IS NULL THEN 1 ELSE 0 END, r.rack_number ASC " + 
                         "LIMIT ?, ?";
 

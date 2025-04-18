@@ -1,7 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="java.net.URLDecoder" %>
-<%@ page import="Data.Users" %>
+<%@ page import="Data.Users, Servlet.DBConnection" %>
 <%
     Users user = (Users) session.getAttribute("user");
 
@@ -9,6 +10,18 @@
     if (user == null || (user.getRoleID() != 1 && user.getRoleID() != 2)) {
         response.sendRedirect("index.jsp"); // Chuyển về trang chính nếu không có quyền
         return;
+    }   
+%>
+<% 
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DBConnection.getConnection();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 %>
 <%
@@ -18,19 +31,13 @@
         return;
     }
 
-    String jdbcURL = "jdbc:mysql://localhost:3306/qlthuvien";
-    String jdbcUsername = "root";
-    String jdbcPassword = "";
-
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
     String title = "", subject = "", publisher = "", language = "", format = "", summary = "", description = "";
     int publicationYear = 0, numberOfPages = 0, quantity = 0;
-    
+    List<Integer> currentAuthors = new ArrayList<>();
+    Map<Integer, String> allAuthors = new HashMap<>();
+    int authorID = 0;
+    String authorName = "";
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         String query = "SELECT b.*, d.description FROM book b LEFT JOIN book_description d ON b.isbn = d.isbn WHERE b.isbn = ?";
         stmt = conn.prepareStatement(query);
         stmt.setString(1, isbn);
@@ -50,12 +57,20 @@
             response.sendRedirect("bookList.jsp");
             return;
         }
+
+        String authorQuery = "SELECT a.id, a.name FROM author a JOIN book b ON a.id = b.authorID WHERE b.isbn = ?";
+        stmt = conn.prepareStatement(authorQuery);
+        stmt.setString(1, isbn);
+        rs = stmt.executeQuery();
+        if (rs.next()) {
+            authorID = rs.getInt("id");
+            authorName = rs.getString("name");
+        }
+        rs.close();
+        stmt.close();
+        
     } catch (Exception e) {
         out.println("<p style='color:red;'>Lỗi: " + e.getMessage() + "</p>");
-    } finally {
-        if (rs != null) rs.close();
-        if (stmt != null) stmt.close();
-        if (conn != null) conn.close();
     }
 %>
 
@@ -64,6 +79,8 @@
     <title>Chỉnh sửa thông tin sách</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./CSS/navbar.css">
+    <script src="./JS/admin.js"></script>
+    <link rel="stylesheet" href="./CSS/ad_menu.css">
     <link rel="icon" href="./images/reading-book.png" type="image/x-icon" />
     <style>      
         body {
@@ -143,7 +160,10 @@
     <%
         String update = request.getParameter("update");
         String error = request.getParameter("error");
-
+        
+        if (format == null) {
+            format = "Hardcover"; // Giá trị mặc định nếu format null
+        }
         if ("success".equals(update)) {
     %>
         <script>
@@ -171,7 +191,17 @@
             <li><a href="admin.jsp">Thêm sách</a></li>
             <li><a href="addBookItem.jsp">Vị trí sách</a></li>
             <li><a href="createUser.jsp">Quản lý người dùng</a></li>
+            <li><a href="adminBorrowedBooks.jsp">Quản lý mượn trả sách</a></li>
         </ul>
+        <div class="user-menu" onclick="toggleUserMenu()">
+            <span><%= user.getUsername() %></span>
+            <span id="arrowIcon" class="arrow">▼</span>
+        </div>
+        <div id="userDropup" class="user-dropup">
+            <a href="#">Thông tin cá nhân</a>
+            <a href="#">Cài đặt</a>
+            <a href="LogOutServlet">Đăng xuất</a>
+        </div>
     </div>
     <div class="container">
         <div class="header-container">
@@ -198,7 +228,28 @@
 
                     <label>Thể loại</label>
                     <input type="text" name="subject" value="<%= subject %>">
-
+                    
+                    <label>Tác giả</label>
+                    <input type="text" name="authorName" id="authorName" list="authorList" value="<%= authorName%>" required>
+                    <datalist id="authorList">
+                    <%
+                        if (conn != null) {
+                            Statement stmt2 = conn.createStatement();
+                            ResultSet rs2 = stmt2.executeQuery("SELECT id, name FROM Author");
+                            while (rs2.next()) {
+                    %>
+                    <option value="<%= rs2.getString("name") %>" data-id="<%= rs2.getInt("id") %>"></option>
+                    <%
+                            }
+                            rs2.close();
+                            stmt2.close();
+                            conn.close(); // Đóng kết nối
+                        } else {
+                            out.println("<option value='' disabled>Không thể tải danh sách tác giả</option>");
+                        }
+                    %>
+                </datalist>
+                    
                     <label>Nhà xuất bản</label>
                     <input type="text" name="publisher" value="<%= publisher %>">
 

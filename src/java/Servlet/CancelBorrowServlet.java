@@ -35,7 +35,7 @@ public class CancelBorrowServlet extends HttpServlet {
             checkStmt.setInt(2, user.getId());
             ResultSet rs = checkStmt.executeQuery();
 
-            if (rs.next() && "Chờ duyệt".equals(rs.getString("status"))) {
+            if (rs.next() && "Pending Approval".equals(rs.getString("status"))) {
                 // Xóa bản ghi nếu đang "Chờ duyệt"
                 String deleteSql = "DELETE FROM borrow WHERE borrow_id = ?";
                 PreparedStatement deleteStmt = conn.prepareStatement(deleteSql);
@@ -57,6 +57,6 @@ public class CancelBorrowServlet extends HttpServlet {
     }
     private void sendResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println("<script>alert('" + message + "'); window.history.back();</script>");
+        response.getWriter().println("<script>alert('" + message + "'); window.location.href='borrowedBooks.jsp';</script>");
     }
 }

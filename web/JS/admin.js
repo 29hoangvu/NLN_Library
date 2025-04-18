@@ -25,3 +25,4 @@ document.addEventListener("DOMContentLoaded", function () {
     userMenu.addEventListener("mouseleave", hideMenu);
     userDropup.addEventListener("mouseleave", hideMenu);
 });
+

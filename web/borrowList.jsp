@@ -104,6 +104,30 @@
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
+                String status = rs.getString("status");
+                String statusVN = "";
+                switch (status) {
+                    case "Pending Approval":
+                        statusVN = "Chờ duyệt";
+                        break;
+                    case "Approved":
+                        statusVN = "Đã duyệt";
+                        break;
+                    case "Rejected":
+                        statusVN = "Từ chối";
+                        break;
+                    case "Borrowed":
+                        statusVN = "Đang mượn";
+                        break;
+                    case "Returned":
+                        statusVN = "Đã trả";
+                        break;
+                    case "Overdue":
+                        statusVN = "Quá hạn";
+                        break;
+                    default:
+                        statusVN = "Không xác định";
+                }
             %>
             <tr>
                 <td><%= rs.getString("username") %></td>
@@ -111,7 +135,7 @@
                 <td><%= rs.getString("isbn") %></td>
                 <td><%= rs.getDate("borrowed_date") %></td>
                 <td><%= rs.getDate("due_date") %></td>
-                <td><%= rs.getString("status") %></td>
+                <td><%= statusVN %></td>
                 <td>
                     <button class="btn-edit" onclick="approveBorrow(<%= rs.getInt("borrow_id") %>, <%= rs.getInt("book_item_id") %>)">
                         Duyệt

@@ -102,5 +102,27 @@
                     
     </div>
 </body>
+<script>
+document.getElementById("authorName").addEventListener("input", function () {
+    const input = this.value.trim();
+    const dataList = document.getElementById("authorList");
+    let isExistingAuthor = false;
+
+    for (let option of dataList.options) {
+        if (option.value === input) {
+            document.getElementById("authorId").value = option.dataset.id;
+            isExistingAuthor = true;
+            break;
+        }
+    }
+
+    if (isExistingAuthor) {
+        document.getElementById("isNewAuthor").value = "false";
+    } else {
+        document.getElementById("isNewAuthor").value = "true";
+        document.getElementById("authorId").value = "";
+    }
+});
+</script>
 </html>
 

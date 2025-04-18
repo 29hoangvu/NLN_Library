@@ -1,5 +1,5 @@
 package Servlet;
-
+//Vi tri ke
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.*;
@@ -35,16 +35,6 @@ public class BookItemServlet extends HttpServlet {
             stmt = conn.prepareStatement(checkRackQuery);
             stmt.setInt(1, Integer.parseInt(rackId));
             rackRs = stmt.executeQuery();
-
-            if (rackRs.next()) {
-                String existingIsbn = rackRs.getString("book_isbn");
-
-                // Nếu kệ đã chứa sách khác, không cho phép thay đổi
-                if (!existingIsbn.equals(isbn)) {
-                    sendResponse(response, "Lỗi: Kệ đã chứa sách khác.");
-                    return;
-                }
-            }
 
             // 3️⃣ Kiểm tra xem sách đã có trong bookitem chưa
             String checkBookItemQuery = "SELECT book_isbn FROM bookitem WHERE book_isbn = ?";
