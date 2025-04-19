@@ -1,6 +1,6 @@
-#Library Management System
+# Library Management System
 Description: Library management is a web application that helps manage library resources including book borrowing and return management, user management better than traditional methods.
-##Setting
+## Setting
 - JDK 17+
 - Apache Tomcat 10
 - NetBeans 21
