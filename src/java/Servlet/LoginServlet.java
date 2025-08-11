@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
                     if (roleID == 3) {
                         response.sendRedirect("index.jsp"); // Thành viên
                     } else {
-                        response.sendRedirect("adminDashboard.jsp"); // Admin hoặc Thủ thư
+                        response.sendRedirect(request.getContextPath() + "/auth/lib/adminDashboard.jsp"); // Admin hoặc Thủ thư
                     }
                 }
             }

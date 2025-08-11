@@ -1,6 +1,7 @@
 package Servlet;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -51,6 +52,23 @@ public class AdminServlet extends HttpServlet {
                 throw new SQLException("Không xác định được tác giả.");
             }
 
+            // Xử lý ảnh bìa (lưu tên file vào DB và ghi file vào thư mục /images)
+            String imagePath = "images/default-cover.jpg";
+            Part filePart = request.getPart("coverImage");
+
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                imagePath = "images/" + fileName;
+
+                // Tạo thư mục nếu chưa có
+                String realPath = getServletContext().getRealPath("/") + "images";
+                File uploadDir = new File(realPath);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+
+                // Ghi file vào thư mục images
+                filePart.write(realPath + File.separator + fileName);
+            }
+
             // Thêm sách vào bảng `book`
             String sqlBook = "INSERT INTO Book (isbn, title, subject, publisher, publicationYear, language, numberOfPages, format, authorId, quantity, coverImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sqlBook)) {
@@ -64,15 +82,7 @@ public class AdminServlet extends HttpServlet {
                 stmt.setString(8, format);
                 stmt.setInt(9, authorId);
                 stmt.setInt(10, quantity);
-
-                // Xử lý ảnh bìa (nếu có)
-                Part filePart = request.getPart("coverImage");
-                if (filePart != null && filePart.getSize() > 0) {
-                    stmt.setBlob(11, filePart.getInputStream());
-                } else {
-                    stmt.setNull(11, Types.BLOB);
-                }
-
+                stmt.setString(11, imagePath);
                 stmt.executeUpdate();
             }
 
